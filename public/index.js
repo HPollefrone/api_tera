@@ -228,7 +228,7 @@ function  handleFile(files){
 };
 
 /*Define header parameters */
-const token = "TYBtP0iLWfu34TXKLWWCgVNcsJFrdSJJ4JNa3zwIX81-"
+const token = ""
 
 /*define variables */
 
