@@ -1,13 +1,20 @@
-
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+//import { createRequire } from 'module';
+import express from 'express';
+import path from 'path';
+import {fileURLToPath} from "url"
+//const require = createRequire(import.meta.url);
+//const express = require('express');
+//const fs = require('fs');
+//const path = require('path');
 
 // APP
 const app = express();
 
 // JS, CSS e IMG
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(__dirname + '/public'));
+
+
 
 // Rotas
 

@@ -1,45 +1,6 @@
-
+import {similarity} from './checkSimilarity.js'
 /*FUNCTIONS HERE*/
 
- function similarity(s1, s2) {
-     var longer = s1;
-     var shorter = s2;
-     if (s1.length < s2.length) {
-       longer = s2;
-       shorter = s1;
-     }
-     var longerLength = longer.length;
-     if (longerLength == 0) {
-       return 1.0;
-     }
-     return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
-   }
- function editDistance(s1, s2) {
-     s1 = s1.toLowerCase();
-     s2 = s2.toLowerCase();
-  
-     var costs = new Array();
-     for (var i = 0; i <= s1.length; i++) {
-       var lastValue = i;
-       for (var j = 0; j <= s2.length; j++) {
-         if (i == 0)
-           costs[j] = j;
-         else {
-           if (j > 0) {
-             var newValue = costs[j - 1];
-             if (s1.charAt(i - 1) != s2.charAt(j - 1))
-               newValue = Math.min(Math.min(newValue, lastValue),
-                 costs[j]) + 1;
-             costs[j - 1] = lastValue;
-             lastValue = newValue;
-           }
-         }
-       }
-       if (i > 0)
-         costs[s2.length] = lastValue;
-    }
-    return costs[s2.length];
-   }
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -96,6 +57,7 @@ async function printAddress(item, address, userData) {
               nomedoSacado = JSON.stringify(razaoSocial).split(/\d+/)[0]
               console.log("nome do cedente LIMPO: ", nomedoSacado );            
               sobrenomedoSacado = nomedoSacado.slice(nomedoSacado.indexOf(" ")+1)
+              let sobrenome
               for (sobrenome in nomesDosCedentes){
                 sobrenomeDoCedente = nomesDosCedentes[sobrenome].slice(nomedoSacado.indexOf(" ")+1)
                 sobrenomesSimilaresFlag = similarity(sobrenomeDoCedente, sobrenomedoSacado )
@@ -190,7 +152,7 @@ function clearContent(){
   cedenteIsOkFlag = false;
 
 };
-
+/*
 function enableSpinner(){
   var x = document.getElementById('#carregando').style.display;
   if( x.style.display === "none"){
@@ -199,8 +161,11 @@ function enableSpinner(){
     x.style.display = "none";
   }
 };
-
-function  handleFile(files){
+*/
+const btnCnab = document.getElementById("arquivo")
+btnCnab.addEventListener("change", handleFile)
+function  handleFile(){
+  let files = arquivo.files
   const reader = new FileReader();
   reader.onload = (event) => {
       let data = event.target.result;
@@ -234,10 +199,12 @@ const token = ""
 
 
 let nomesDosCedentes = []
+let sobrenome
 let nomeDoCedente
 let cedenteIsOkFlag
 let similarityFlag = false
 let similarityFlagCount = 0
+let line
 
 let cnpjDoSacado
 let delayInMilliseconds = 1000; //1 second
@@ -249,6 +216,17 @@ let result
 const spinnerLoading = document.querySelector('#loading')
 
 
+btnCnab.addEventListener("click", clearContent)
+//btnCnab.addEventListener("click", enableSpinner)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -256,5 +234,3 @@ const spinnerLoading = document.querySelector('#loading')
 
      
     
-
-
